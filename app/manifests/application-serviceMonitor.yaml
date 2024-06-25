@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor 
+metadata:
+  name: application
+  namespace: monitoring
+  labels: 
+    appname: application 
+    env: dev
+    release: main
+spec: 
+  namespaceSelector:
+    matchNames: 
+      - application 
+  selector: 
+    matchLabels: 
+      appname: application 
+      env: dev
+  endpoints: 
+    - interval: 10s #
+      path: /actuator/prometheus
+      targetPort: 8080 

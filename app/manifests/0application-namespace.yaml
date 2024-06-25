@@ -1,0 +1,8 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: application
+  namespace: application
+  labels:
+    appname: application
+    env: dev

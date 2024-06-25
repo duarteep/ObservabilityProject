@@ -1,0 +1,21 @@
+
+loki:
+  enabled: true
+  isDefault: false
+  image:
+    repository: grafana/loki
+    tag: 2.9.3
+  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 3100
+    initialDelaySeconds: 45
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: 3100
+    initialDelaySeconds: 45
+  datasource:
+    jsonData: "{}"
+    uid: ""

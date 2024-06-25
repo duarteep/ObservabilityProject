@@ -1,0 +1,21 @@
+alertmanager:
+  enabled: false
+prometheus:
+  additionalRulesForClusterRole:
+    - nonResourceURLs:
+        - "/actuator/metrics"
+      verbs:
+        - get
+grafana:
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki:3100
+      jsonData:
+        timeout: 60
+        maxLines: 1000
+    - name: Jaeger
+      type: jaeger
+      access: proxy
+      url: http://trace-jaeger-query

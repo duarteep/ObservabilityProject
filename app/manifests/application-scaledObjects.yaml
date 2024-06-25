@@ -1,0 +1,22 @@
+kind: ScaledObject
+apiVersion: keda.sh/v1alpha1
+metadata:
+    name: application-keda
+    namespace: application
+    labels:
+      appname: application
+      env: dev
+spec:
+  scaleTargetRef:
+    name: application # Deployment name
+  pollingInterval: 15 # Seconds to check Prometheus metric
+  cooldownPeriod: 10 # seconds to cooldonw scale
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: http://main-kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+      metricName: pod_memory_percentage_usage_kotlin
+      threshold: '50'
+      query: rate(http_server_requests_seconds_count{uri="/"}[1m])
